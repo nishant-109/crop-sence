@@ -36,12 +36,25 @@ module.exports = (sequelize, DataTypes) => {
             hooks : true
 
         })
+
+        Farmers.hasMany(models.consultations, {
+            as : "consultation" , 
+            foreignKey : "farmer_id",
+            onDelete: 'cascade',
+            hooks : true
+
+        })
+        
     }
     
     Farmers.createFarmer = (farmerObj)=>{
         return Farmers.create(farmerObj)
     }
 
+    Farmers.editFarmer = async (editObject, includeObj) => {
+        return await Farmers.update(editObject, includeObj);
+    }
+    
     Farmers.getFarmerByUserId = async(userId)=>{
         return await Farmers.findOne({
             where : {
@@ -50,7 +63,9 @@ module.exports = (sequelize, DataTypes) => {
         })
     }
 
-
+    // Farmers.getFarmerById = (includeObj)=>{
+    //     return Farmers.findOne(includeObj)
+    // }
 
     return Farmers;
 };
